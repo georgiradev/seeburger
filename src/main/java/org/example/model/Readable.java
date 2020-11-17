@@ -6,4 +6,6 @@ public interface Readable {
   int getNumberOfCopies();
 
   void setNumberOfCopies(int numberOfCopies);
+
+  int getInitialCopies();
 }

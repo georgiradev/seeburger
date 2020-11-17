@@ -40,24 +40,32 @@ public class Library {
     }
   }
 
-  private void findItem(String name, String command) {
+  public void findItem(String name, String command) {
     boolean isFound = false;
+
     for (Readable readable : readableList) {
       if (readable.getName().equals(name)) {
         isFound = true;
+        String className = readable.getClass().getSimpleName();
+
         if (readable.getNumberOfCopies() > 0 && command.equals("1")) {
           System.out.println(
-              "Book with name " + readable.getName() + " was rented to you successfully!");
+              className + " with name " + readable.getName() + " was rented to you successfully!");
           readable.setNumberOfCopies(readable.getNumberOfCopies() - 1);
         } else if (command.equals("2")) {
-          System.out.println(
-              "Magazine with name " + readable.getName() + " was returned successfully!");
-          readable.setNumberOfCopies(readable.getNumberOfCopies() + 1);
+          if (readable.getInitialCopies() == readable.getNumberOfCopies()) {
+            System.out.println("All initial copies are present! No action is performed.");
+          } else {
+            System.out.println(
+                className + " with name " + readable.getName() + " was returned successfully!");
+            readable.setNumberOfCopies(readable.getNumberOfCopies() + 1);
+          }
         } else {
-          System.out.println("Readable is not present at the moment");
+          System.out.println(className + " is not present at the moment");
         }
       }
     }
+
     if (!isFound) {
       System.out.println("Readable is not registered!");
     }
