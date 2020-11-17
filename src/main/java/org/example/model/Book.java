@@ -4,7 +4,7 @@ public class Book implements Readable {
 
   private final String name;
   private final String author;
-  private final int initialCopies;
+  private int initialCopies;
   private int numberOfCopies;
 
   public Book(String name, String author) {
@@ -29,6 +29,36 @@ public class Book implements Readable {
   }
 
   @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+
+    if (obj.getClass() != this.getClass()) {
+      return false;
+    }
+
+    final Book other = (Book) obj;
+    if(!this.name.equals(other.name)) {
+      return false;
+    }
+    if(!this.author.equals(other.author)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 3;
+    hash = 53 * hash + (this.name != null ? this.name.hashCode() : 0);
+    hash = 53 * hash + this.initialCopies;
+
+    return hash;
+  }
+
+  @Override
   public String getName() {
     return name;
   }
@@ -50,5 +80,10 @@ public class Book implements Readable {
   @Override
   public int getInitialCopies() {
     return this.initialCopies;
+  }
+
+  @Override
+  public void setInitialCopies(int numberOfCopies) {
+    this.initialCopies = numberOfCopies;
   }
 }

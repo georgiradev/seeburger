@@ -49,18 +49,22 @@ public class Reader {
 
   private boolean isPresent(Readable readable) {
     for (Readable r : readables) {
-      if (r.getName().equals(readable.getName())) {
-        if (readable instanceof Book) {
-          Book book = (Book) r;
-          if (book.getAuthor().equals(((Book) readable).getAuthor())) {
-            book.setNumberOfCopies(book.getNumberOfCopies() + 1);
-          }
-        } else if (readable instanceof Magazine) {
-          Magazine magazine = (Magazine) r;
-          magazine.setNumberOfCopies(magazine.getNumberOfCopies() + 1);
-        }
+      if (readable instanceof Book && r instanceof Book) {
+        Book book = (Book) r;
+        if (r.equals(readable)) {
+          book.setNumberOfCopies(book.getNumberOfCopies() + 1);
+          book.setInitialCopies(book.getNumberOfCopies());
 
-        return true;
+          return true;
+        }
+      } else if (readable instanceof Magazine && r instanceof Magazine) {
+        Magazine magazine = (Magazine) r;
+        if (r.equals(readable)) {
+          magazine.setNumberOfCopies(magazine.getNumberOfCopies() + 1);
+          magazine.setInitialCopies(magazine.getNumberOfCopies());
+
+          return true;
+        }
       }
     }
 

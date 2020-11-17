@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.cli.Library;
+import org.example.cli.LibraryManager;
 import org.example.model.Book;
 import org.example.model.Date;
 import org.example.model.Magazine;
@@ -19,7 +19,7 @@ public class AppTest {
   private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
   private final PrintStream originalOut = System.out;
   private final PrintStream originalErr = System.err;
-  private Library library;
+  private LibraryManager libraryManager;
 
   @Before
   public void setUpStreams() {
@@ -35,13 +35,13 @@ public class AppTest {
 
   @Before
   public void initialize() {
-    library = new Library("src/main/java/File.txt");
+    libraryManager = new LibraryManager("src/main/java/File.txt");
   }
 
   @Test
   public void rentBook() {
     Book book = new Book("The Firm", "John Grisham");
-    library.findItem(book.getName(), "1");
+    libraryManager.findBook(book.getName(), "1");
 
     assertEquals(
         "Book with name The Firm was rented to you successfully!\r\n", outContent.toString());
@@ -50,7 +50,8 @@ public class AppTest {
   @Test
   public void rentMagazine() {
     Magazine magazine = new Magazine("PC Today", new Date("07", "2017"));
-    library.findItem(magazine.getName(), "1");
+    String date = magazine.getIssueDate().getMonth() + "/" + magazine.getIssueDate().getYear();
+    libraryManager.findMagazine(magazine.getName(), "1", date);
 
     assertEquals(
         "Magazine with name PC Today was rented to you successfully!\r\n", outContent.toString());
@@ -59,8 +60,8 @@ public class AppTest {
   @Test
   public void returnBook() {
     Book book = new Book("The Firm", "John Grisham");
-    library.findItem(book.getName(), "1");
-    library.findItem(book.getName(), "2");
+    libraryManager.findBook(book.getName(), "1");
+    libraryManager.findBook(book.getName(), "2");
 
     assertEquals(
         "Book with name The Firm was rented to you successfully!\r\n"
@@ -71,23 +72,23 @@ public class AppTest {
   @Test
   public void rentBookThatNotExist() {
     Book book = new Book("Lord of the Rings", "J. R. R. Tolkien");
-    library.findItem(book.getName(), "1");
+    libraryManager.findBook(book.getName(), "1");
 
-    assertEquals("Readable is not registered!\r\n", outContent.toString());
+    assertEquals("Book is not registered!\r\n", outContent.toString());
   }
 
   @Test
   public void returnBookThatNotExist() {
     Book book = new Book("Lord of the Rings", "J. R. R. Tolkien");
-    library.findItem(book.getName(), "2");
+    libraryManager.findBook(book.getName(), "2");
 
-    assertEquals("Readable is not registered!\r\n", outContent.toString());
+    assertEquals("Book is not registered!\r\n", outContent.toString());
   }
 
   @Test
   public void returnBookMoreTimesThanInitialCount() {
     Book book = new Book("The Firm", "John Grisham");
-    library.findItem(book.getName(), "2");
+    libraryManager.findBook(book.getName(), "2");
 
     assertEquals(
         "All initial copies are present! No action is performed.\r\n", outContent.toString());
@@ -96,8 +97,8 @@ public class AppTest {
   @Test
   public void tryRentBookThatIsRegisteredButNotAvailable() {
     Book book = new Book("The Firm", "John Grisham");
-    library.findItem(book.getName(), "1");
-    library.findItem(book.getName(), "1");
+    libraryManager.findBook(book.getName(), "1");
+    libraryManager.findBook(book.getName(), "1");
 
     assertEquals(
         "Book with name The Firm was rented to you successfully!\r\n"
