@@ -25,7 +25,7 @@ public class LibraryManager {
 
   public void readInput() {
     while (true) {
-      System.out.println("Available items are: \n");
+      System.out.println("\nAvailable items are: \n");
       for (Readable readable : readableList) {
         System.out.println(readable);
       }
@@ -33,7 +33,7 @@ public class LibraryManager {
       String name = scanner.nextLine();
       Readable readable = findReadable(name);
       if (readable == null) {
-        System.out.println("Readable is not registered!\n");
+        System.out.println("Readable is not registered!");
         continue;
       }
       System.out.println("Select action: ");
@@ -49,14 +49,14 @@ public class LibraryManager {
             System.out.println("Enter magazine issueDate in format mm/yyyy: ");
             String issueDate = scanner.nextLine();
             if (!isValidIssueDate(issueDate)) {
-              System.out.println("Invalid issue date!\n");
+              System.out.println("Invalid issue date!");
             } else {
               findMagazine(name, cmd, issueDate);
             }
           }
           break;
         default:
-          System.out.println("Command not recognized!\n");
+          System.out.println("Command not recognized!");
       }
     }
   }
@@ -94,7 +94,7 @@ public class LibraryManager {
     }
 
     if (!isFound) {
-      System.out.println("Book is not registered!\n");
+      System.out.println("Book is not registered!");
     }
   }
 
@@ -112,7 +112,7 @@ public class LibraryManager {
         readable.setNumberOfCopies(readable.getNumberOfCopies() + 1);
       }
     } else {
-      System.out.println(className + " is not present at the moment\n");
+      System.out.println(className + " is not present at the moment");
     }
   }
 
@@ -139,9 +139,9 @@ public class LibraryManager {
     }
 
     if (!isFound) {
-      System.out.println("Magazine is not registered!\n");
+      System.out.println("Magazine is not registered!");
     } else if (!dateFound) {
-      System.out.println("There is no " + name + " magazine with this issueDate!\n");
+      System.out.println("There is no " + name + " magazine with this issueDate!");
     }
   }
 }
